@@ -523,6 +523,7 @@ func close_battle() -> void:
 	BATTLE.reset_state();
 	if(blacked_out):
 		PARTY.restore_party_after_blackout();
+		GLOBAL.emit_signal("get_on_bike", false);
 		GLOBAL.go_to_scene(MAPS.last_poke_center, false);
 
 func close_dialog_and_show_menu(time: float) -> void:
