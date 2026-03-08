@@ -9,7 +9,7 @@ var uuid = preload("res://uuid.gd").new();
 func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100], for_battle = true):
 	if("name" in poke):
 		name = poke.name;
-		data = poke;
+		data = poke.duplicate(true);
 		#EXTRA PROPS
 		get_extra_props();
 		#ASSETS
