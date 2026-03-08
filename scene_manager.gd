@@ -125,7 +125,8 @@ func save() -> Dictionary:
 		"save_type": ENUMS.SaveType.SCENE,
 		"path": get_path(),
 		"scene": next_scene,
-		"last_map": MAPS.last_map
+		"last_map": MAPS.last_map,
+		"last_poke_center": MAPS.last_poke_center
 	}
 	return data;
 
@@ -133,6 +134,7 @@ func save() -> Dictionary:
 func load(data: Dictionary) -> void:
 	if(data.scene != ""): transition_to_scene(data.scene, true, false);
 	if("last_map" in data): MAPS.last_map = data.last_map;
+	if("last_poke_center" in data): MAPS.last_poke_center = data.last_poke_center;
 	
 func listen_to_signals() -> void:
 	GLOBAL.connect("start_dialog", _on_start_dialog);

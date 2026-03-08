@@ -15,6 +15,7 @@ var healing = false
 func _ready() -> void:
 	super();
 	check_out_scene();
+	MAPS.last_poke_center = scene_file_path;
 	party = PARTY.get_party();
 	party_size = party.size();
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);

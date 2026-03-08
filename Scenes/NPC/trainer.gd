@@ -105,9 +105,13 @@ func start_trainer_battle() -> void:
 
 #END
 func _on_end_battle(battle_data: Dictionary) -> void:
+	if(!is_same_trainer(battle_data)):
+		return;
 	process_mode = Node.PROCESS_MODE_INHERIT;
-	await GLOBAL.timeout(0.4);
-	if(is_same_trainer(battle_data)):
+	if(battle_data["player_won"] == false):
+		GLOBAL.insight = false;
+	if(battle_data["player_won"] == true):
+		await GLOBAL.timeout(0.4);
 		already_defeated = true;
 		TRAINERS.add_defeat_trainer(battle_data.trainer_id);
 		type = ENUMS.NPCType.DEFAULT;

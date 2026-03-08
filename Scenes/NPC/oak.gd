@@ -326,6 +326,7 @@ func check_for_battle() -> void:
 			call_deferred("set_process", Node.PROCESS_MODE_DISABLED);
 
 func set_battle_data(data: Dictionary) -> void:
+	data["player_won"] = null;
 	battle_data = data;
 	ready_to_battle = true;
 

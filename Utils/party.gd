@@ -81,6 +81,10 @@ func healh_party_pokemon() -> void:
 			if(move != null):
 				poke.data.battle_moves[i].pp = move.total_pp;
 
+func restore_party_after_blackout() -> void:
+	healh_party_pokemon();
+	reset_all_active(true);
+
 func create_party_from_json(party: Array) -> Array:
 	var created_party = [];
 	var already_active = false;

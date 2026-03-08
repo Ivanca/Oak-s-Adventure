@@ -47,6 +47,7 @@ var HP_ELLAPSED = 0.0;
 var pokemon: Object;
 var enemy: Object;
 var battle_data: Dictionary;
+var blacked_out: bool = false;
 var exp_to_next_level = 0;
 var base_exp_level = 0;
 var base_exp_to_next_level = 0;
@@ -282,7 +283,9 @@ func handle_death(state: Dictionary) -> void:
 			await GLOBAL.timeout(0.2);
 			give_exp_to_participants(state);
 			await BATTLE.participant_exp_end;
-		if(BATTLE.are_all_enemies_defeated()): end_battle();
+		if(BATTLE.are_all_enemies_defeated()):
+			battle_data["player_won"] = true;
+			end_battle();
 		else: await check_for_next_trainer_pokemon();
 	#PLAYER DEATH
 	else: check_for_next_pokemon_after_death();
@@ -385,10 +388,12 @@ func handle_can_use_next_pokemon() -> void:
 	});
 
 func handle_no_pokemon_left() -> void:
+	battle_data["player_won"] = false;
 	await GLOBAL.timeout(0.8);
-	dialog.start(["No POKéMON left!\n", "You returned to the last safe spot..."]);
+	dialog.start(["No POKéMON left!\n", "You blacked out and were taken\nto the last POKéMON Center..."]);
 	await BATTLE.dialog_finished;
 	BATTLE.can_use_menu = false;
+	blacked_out = true;
 	battle_anim_player.play("FadetoBlack");
 
 #PARTY
@@ -516,6 +521,9 @@ func close_battle() -> void:
 	GLOBAL.emit_signal("close_battle", battle_data);
 	AUDIO.stop_battle_and_play_last_song();
 	BATTLE.reset_state();
+	if(blacked_out):
+		PARTY.restore_party_after_blackout();
+		GLOBAL.go_to_scene(MAPS.last_poke_center, false);
 
 func close_dialog_and_show_menu(time: float) -> void:
 	dialog.close(time);
