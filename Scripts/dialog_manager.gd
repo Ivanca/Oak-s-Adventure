@@ -93,6 +93,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		!dialog_data.marker ||
 		must_select
 	): return;
+
+	if Input.is_action_just_pressed("space") and pressed and !end_line:
+		if label.visible_characters < text_size:
+			label.visible_characters = text_size;
+			_on_timer_timeout();
+			return;
 	
 	if Input.is_action_just_pressed("space") and !pressed:
 		end_line = false;
